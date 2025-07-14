@@ -3,6 +3,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import Login from './pages/Login';
 import Home from './pages/Home';
+import TransferMarket from './pages/TransferMarket';
 import NotFound from './pages/NotFound';
 import ProtectedRoute from './components/ProtectedRoute';
 import { AuthProvider, useAuth } from './context/AuthContext';
@@ -33,6 +34,14 @@ function AppContent() {
               element={
                 <ProtectedRoute>
                   <Home />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/transfer-market" 
+              element={
+                <ProtectedRoute>
+                  <TransferMarket />
                 </ProtectedRoute>
               } 
             />
