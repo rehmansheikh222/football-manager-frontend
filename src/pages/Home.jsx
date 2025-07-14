@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { getTeamStatus } from '../api/teamApi';
+import { getTeamStatus } from '../api';
+import PlayerCard from '../components/PlayerCard';
 
 const Home = () => {
   const [teamStatus, setTeamStatus] = useState(null);
@@ -104,25 +105,11 @@ const Home = () => {
           <h4 style={{ marginTop: '2rem', marginBottom: '1rem' }}>Your Players:</h4>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1rem' }}>
             {team.players.map((player) => (
-              <div 
+              <PlayerCard 
                 key={player.id}
-                style={{
-                  padding: '1rem',
-                  border: '1px solid #ddd',
-                  borderRadius: '6px',
-                  backgroundColor: '#fff'
-                }}
-              >
-                <h5 style={{ margin: '0 0 0.5rem 0', color: '#333' }}>{player.name}</h5>
-                <p style={{ margin: '0', color: '#666' }}>
-                  <strong>Position:</strong> {player.position}
-                </p>
-                {player.askingPrice && (
-                  <p style={{ margin: '0.5rem 0 0 0', color: '#dc3545' }}>
-                    <strong>Transfer Listed:</strong> ${player.askingPrice.toLocaleString()}
-                  </p>
-                )}
-              </div>
+                player={player}
+                onUpdate={checkTeamStatus}
+              />
             ))}
           </div>
         </div>
