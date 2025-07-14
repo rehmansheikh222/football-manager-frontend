@@ -12,6 +12,7 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
   // Check authentication status on mount
   useEffect(() => {
@@ -19,6 +20,7 @@ export const AuthProvider = ({ children }) => {
     if (storedToken) {
       setIsLoggedIn(true);
     }
+    setIsLoading(false);
   }, []);
 
   const login = (newToken) => {
@@ -33,6 +35,7 @@ export const AuthProvider = ({ children }) => {
 
   const value = {
     isLoggedIn,
+    isLoading,
     login,
     logout,
   };
