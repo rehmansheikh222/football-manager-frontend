@@ -2,11 +2,13 @@ import { useState, useEffect } from 'react';
 import { getTransferMarket, buyPlayer } from '../api';
 import TransferFilters from '../components/TransferFilters';
 import TransferPlayerList from '../components/TransferPlayerList';
+import Notification from '../components/Notification';
 
 const TransferMarket = () => {
   const [players, setPlayers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+  const [notification, setNotification] = useState(null);
   const [filters, setFilters] = useState({
     teamName: '',
     playerName: '',
@@ -56,9 +58,15 @@ const TransferMarket = () => {
       await buyPlayer(playerId);
       // Refresh the list after purchase
       fetchPlayers();
-      alert('Player purchased successfully!');
+      setNotification({ 
+        message: 'Player purchased successfully!', 
+        type: 'success' 
+      });
     } catch (err) {
-      alert(err.response?.data?.error || 'Failed to purchase player');
+      setNotification({ 
+        message: err.response?.data?.error || 'Failed to purchase player', 
+        type: 'error' 
+      });
     }
   };
 
@@ -96,6 +104,14 @@ const TransferMarket = () => {
         players={players}
         onBuyPlayer={handleBuyPlayer}
       />
+      
+      {notification && (
+        <Notification
+          message={notification.message}
+          type={notification.type}
+          onClose={() => setNotification(null)}
+        />
+      )}
     </div>
   );
 };

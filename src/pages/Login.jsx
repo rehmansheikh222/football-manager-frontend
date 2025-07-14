@@ -2,12 +2,14 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { unauthenticatedClient } from '../api/client';
 import { useAuth } from '../context/AuthContext';
+import Notification from '../components/Notification';
 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [notification, setNotification] = useState(null);
   const navigate = useNavigate();
   const { login } = useAuth();
 
@@ -28,7 +30,7 @@ const Login = () => {
       login(token);
       
       if (isNewUser) {
-        alert(message); // Team creation in progress message
+        setNotification({ message, type: 'success' });
       }
       
       // Redirect to home page
@@ -129,6 +131,14 @@ const Login = () => {
           {loading ? 'Please wait...' : 'Login / Register'}
         </button>
       </form>
+      
+      {notification && (
+        <Notification
+          message={notification.message}
+          type={notification.type}
+          onClose={() => setNotification(null)}
+        />
+      )}
     </div>
   );
 };
